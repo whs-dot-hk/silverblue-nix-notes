@@ -6,7 +6,6 @@ sudo mkdir -p /var/nix
 [Unit]
 Description=Create nix directory
 Before=local-fs-pre.target
-Wants=local-fs-pre.target
 
 [Service]
 Type=oneshot
@@ -21,14 +20,11 @@ WantedBy=local-fs.target
 # /etc/systemd/system/nix.mount
 [Unit]
 Description=Mount nix
-After=var.mount
-Wants=var.mount
+After=-.mount var.mount
+Before=local-fs.target
 
 [Mount]
 What=/var/nix
 Where=/nix
 Options=bind
-
-[Install]
-WantedBy=local-fs.target
 ```
